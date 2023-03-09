@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">4000</string>
+    <string name="title_activity_home">home</string>
+    <string name="login_form_title">4000 weeks</string>
+    <string name="login_form_username">Username</string>
+    <string name="login_form_password">Password</string>
+    <string name="login_form_login">login</string>
+    <string name="login_form_sign">signup</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_page">page</string>
+</resources>
