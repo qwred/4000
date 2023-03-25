@@ -7,6 +7,15 @@
     <string name="login_form_login">login</string>
     <string name="login_form_sign">signup</string>
 
+    <string name="register_form_title">Sign up for 4000 weeks</string>
+    <string name="register_form_username">Username</string>
+    <string name="register_form_password">Password</string>
+    <string name="register_form_dob">Birth of date</string>
+    <string name="register_form_sign">signup</string>
+    <string name="register_back_to_login">Back to Login</string>
+
+    <string name="logout">Logout</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
