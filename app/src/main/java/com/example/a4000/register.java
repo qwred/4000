@@ -21,7 +21,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseException;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 
@@ -31,11 +39,23 @@ public class register extends AppCompatActivity
 
     private EditText usernameEditText;
     private EditText passwordEditText;
+    private EditText nameEditText;
     private Button signButton;
     private Button backButton;
-//    private Button dateButton;
+
+    private DatePicker birthday;
+
+    private static final String USERS = "users";
+
+    String dob;
+
 //    private DatePickerDialog datePickerDialog;
     FirebaseAuth mAuth;
+
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    userInfo userInfo;
+
     ProgressBar progressBar;
 
 //    public void onStart() {
@@ -63,8 +83,50 @@ public class register extends AppCompatActivity
 
         usernameEditText = findViewById(R.id.register_usernameEditText);
         passwordEditText = findViewById(R.id.register_passwordEditText);
+        nameEditText = findViewById(R.id.register_nameEditText);
 
         progressBar = findViewById(R.id.progressBar);
+
+        birthday = findViewById(R.id.register_dob); //
+        birthday.setMaxDate(Calendar.getInstance().getTimeInMillis());
+
+        int day = birthday.getDayOfMonth();
+        int month = birthday.getMonth()+1;
+        int year = birthday.getYear();
+
+//        Calendar calendar = Calendar.getInstance();
+
+
+//        birthday.init(year,month,day, new DatePicker.OnDateChangedListener()
+//        {
+//
+//            @Override
+//            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth)
+//            {
+//                int selectedYear = view.getYear();
+//                int selectedMonth = view.getMonth() +1;
+//                int selectedDay = view.getDayOfMonth();
+//
+//                calendar.set(selectedYear,selectedMonth,selectedDay);
+//
+//            }
+//        });
+
+        birthday.init(year, month, day, new DatePicker.OnDateChangedListener()
+                {
+                    @Override
+                    public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth)
+                    {
+                        // Get the selected date of birth from the DatePicker widget
+                        dob = (monthOfYear + 1) + "/" + dayOfMonth  + "/" + year;
+                        // Use the dob variable as needed
+
+                    }
+                }
+        );
+
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+//        dob = dateFormat.format(calendar.getTime());
 
         backButton = findViewById(R.id.register_loginButton);
         backButton.setOnClickListener(new View.OnClickListener()
@@ -89,6 +151,7 @@ public class register extends AppCompatActivity
                 progressBar.setVisibility(View.VISIBLE);
                 String username = String.valueOf(usernameEditText.getText());
                 String password = String.valueOf(passwordEditText.getText());
+                String fullName = String.valueOf(nameEditText.getText());
 
                 if(TextUtils.isEmpty(username))
                 {
@@ -112,13 +175,25 @@ public class register extends AppCompatActivity
                         progressBar.setVisibility(View.GONE);
                         if (task.isSuccessful())
                         {
+
+                            firebaseDatabase = FirebaseDatabase.getInstance();
+                            databaseReference = firebaseDatabase.getReference(USERS);
+                            userInfo = new userInfo(fullName, dob, username);
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            addDataFirebase(user);
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(register.this, "Account created.", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), user.class);
+                            startActivity(intent);
+                            finish();
                         }
                         else
                         {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(register.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                            if(password.length()<6)
+                                Toast.makeText(register.this, "Password should be at least 6 characters", Toast.LENGTH_SHORT).show();
+                            else
+                                Toast.makeText(register.this, "There is already existing account with this email", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -127,81 +202,45 @@ public class register extends AppCompatActivity
 
     }
 
-//    private String getTodaysDate()
+//    private void addDataFirebase(String birthday, String name)
 //    {
-//        Calendar cal = Calendar.getInstance();
-//        int year = cal.get(Calendar.YEAR);
-//        int month = cal.get(Calendar.MONTH);
-//        month = month + 1;
-//        int day = cal.get(Calendar.DAY_OF_MONTH);
-//        return makeDateString(day, month, year);
-//    }
-//
-//    private void initDatePicker()
-//    {
-//        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener()
+//        userInfo.setDob(birthday);
+//        databaseReference.addValueEventListener(new ValueEventListener()
 //        {
 //            @Override
-//            public void onDateSet(DatePicker datePicker, int year, int month, int day)
+//            public void onDataChange(@NonNull DataSnapshot snapshot)
 //            {
-//                month = month + 1;
-//                String date = makeDateString(day, month, year);
-//                dateButton.setText(date);
+//                // inside the method of on Data change we are setting
+//                // our object class to our database reference.
+//                // data base reference will sends data to firebase.
+//                databaseReference.setValue(userInfo);
+//
+//                // after adding this data we are showing toast message.
+//                Toast.makeText(register.this, "data added", Toast.LENGTH_SHORT).show();
 //            }
-//        };
 //
-//        Calendar cal = Calendar.getInstance();
-//        int year = cal.get(Calendar.YEAR);
-//        int month = cal.get(Calendar.MONTH);
-//        int day = cal.get(Calendar.DAY_OF_MONTH);
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error)
+//            {
+//                Toast.makeText(register.this, "Fail to add data " + error, Toast.LENGTH_SHORT).show();
+//            }
 //
-//        int style = AlertDialog.THEME_HOLO_LIGHT;
 //
-//        datePickerDialog = new DatePickerDialog(this, style, dateSetListener, year, month, day);
-//        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
 //
-//    }
+//        });
 //
-//    private String makeDateString(int day, int month, int year)
-//    {
-//        return getMonthFormat(month) + " " + day + " " + year;
-//    }
+//        //https://www.geeksforgeeks.org/how-to-save-data-to-the-firebase-realtime-database-in-android/
 //
-//    //Try to find a smarter way to do it
-//    private String getMonthFormat(int month)
-//    {
-//        if(month == 1)
-//            return "JAN";
-//        if(month == 2)
-//            return "FEB";
-//        if(month == 3)
-//            return "MAR";
-//        if(month == 4)
-//            return "APR";
-//        if(month == 5)
-//            return "MAY";
-//        if(month == 6)
-//            return "JUN";
-//        if(month == 7)
-//            return "JUL";
-//        if(month == 8)
-//            return "AUG";
-//        if(month == 9)
-//            return "SEP";
-//        if(month == 10)
-//            return "OCT";
-//        if(month == 11)
-//            return "NOV";
-//        if(month == 12)
-//            return "DEC";
-//
-//        return "JAN";
-//    }
-//
-//    public void openDatePicker(View view)
-//    {
-//        datePickerDialog.show();
-//    }
 
+//    }
+    private void addDataFirebase(FirebaseUser currentuser)
+    {
+        String keyId = databaseReference.push().getKey();
+        databaseReference.child(keyId).setValue(userInfo);
+        Intent loginIntent = new Intent(this,login.class);
+        startActivity(loginIntent);
+    }
+
+//    https://www.youtube.com/watch?v=0gNPX52o_7I
 
 }

@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/register_form_title"
-                android:textSize="36sp"
+                android:textSize="25sp"
                 android:textAlignment="center"
                 android:layout_gravity="center_horizontal" />
 
@@ -58,6 +58,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
+                android:text="@string/register_fullName" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:id="@+id/register_nameEditText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
                 android:text="@string/register_form_dob" />
 
 <!--            <TextView-->
@@ -84,7 +96,7 @@
 <!--                android:onClick="openDatePicker"/>-->
 
             <DatePicker
-                android:id="@+id/datePicker1"
+                android:id="@+id/register_dob"
                 android:layout_width="wrap_content"
                 android:layout_height="135dp"
                 android:calendarViewShown="false"

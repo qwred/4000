@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class user extends AppCompatActivity
 {
@@ -18,6 +20,8 @@ public class user extends AppCompatActivity
     Button button;
     TextView textView;
     FirebaseUser user;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -27,8 +31,12 @@ public class user extends AppCompatActivity
 
         auth = FirebaseAuth.getInstance();
         button = findViewById(R.id.logout);
-        textView = findViewById(R.id.user_details);
         user = auth.getCurrentUser();
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("userInfo");
+
+        textView = findViewById(R.id.user_details);
         if (user == null){
             Intent intent = new Intent(getApplicationContext(), login.class);
             startActivity(intent);
@@ -37,6 +45,16 @@ public class user extends AppCompatActivity
         else {
             textView.setText(user.getEmail());
         }
+        textView = findViewById(R.id.user_age);
+        if (user == null){
+            Intent intent = new Intent(getApplicationContext(), login.class);
+            startActivity(intent);
+            finish();
+        }
+        else {
+//            textView.setText(databaseReference.get());
+        }
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override

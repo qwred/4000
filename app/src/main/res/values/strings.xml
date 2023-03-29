@@ -13,6 +13,7 @@
     <string name="register_form_dob">Birth of date</string>
     <string name="register_form_sign">signup</string>
     <string name="register_back_to_login">Back to Login</string>
+    <string name="register_fullName">Name</string>
 
     <string name="logout">Logout</string>
 
