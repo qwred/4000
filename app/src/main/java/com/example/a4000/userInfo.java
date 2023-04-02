@@ -2,7 +2,7 @@ package com.example.a4000;
 
 public class userInfo
 {
-    private String user_name;
+    private String userName;
 
     private String dob;
 
@@ -13,21 +13,21 @@ public class userInfo
 
     }
 
-    public userInfo(String user_name, String dob, String email)
+    public userInfo(String userName, String dob, String email)
     {
-        this.user_name = user_name;
+        this.userName = userName;
         this.dob = dob;
         this.email = email;
     }
 
-    public String getUser_name()
+    public String getUserName()
     {
-        return user_name;
+        return userName;
     }
 
-    public void setUser_name(String user_name)
+    public void setUserName(String userName)
     {
-        this.user_name = user_name;
+        this.userName = userName;
     }
 
     public String getDob()

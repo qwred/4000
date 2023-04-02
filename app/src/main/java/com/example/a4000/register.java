@@ -21,11 +21,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.sql.SQLException;
@@ -181,6 +183,13 @@ public class register extends AppCompatActivity
                             userInfo = new userInfo(fullName, dob, username);
                             FirebaseUser user = mAuth.getCurrentUser();
                             addDataFirebase(user);
+
+                            databaseReference.orderByChild("userName"); //Sort the database by the name
+
+                            UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder().setDisplayName(fullName).build();
+
+                            user.updateProfile(profileUpdate);
+
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(register.this, "Account created.", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), user.class);
@@ -235,8 +244,14 @@ public class register extends AppCompatActivity
 //    }
     private void addDataFirebase(FirebaseUser currentuser)
     {
-        String keyId = databaseReference.push().getKey();
-        databaseReference.child(keyId).setValue(userInfo);
+//        The code below make the node and add the data to the realtime database.
+//        However, it doesn't change the name of the node. In fact, it generates nodes like"-NRjSu88fjdQBjoNoZ1V"
+//        String keyId = databaseReference.push().getKey();
+//        databaseReference.child(keyId).setValue(userInfo);
+//
+//      To fix the problem I changed, the name of the node as the user's Full name.
+        databaseReference.push();
+        databaseReference.child(userInfo.getUserName()).setValue(userInfo);
         Intent loginIntent = new Intent(this,login.class);
         startActivity(loginIntent);
     }
