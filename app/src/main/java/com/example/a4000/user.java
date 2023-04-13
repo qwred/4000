@@ -229,6 +229,22 @@ public class user extends AppCompatActivity
         parentList.add(new ParentItem("2022.11", R.drawable.calendar, childItems6));
 
 
+        ArrayList<ChildItem> childItems7 = new ArrayList<>();
+        childItems7.add(new ChildItem("week1", R.drawable.ic_action_name));
+        childItems7.add(new ChildItem("week2", R.drawable.ic_action_name));
+        childItems7.add(new ChildItem("week3", R.drawable.ic_action_name));
+        childItems7.add(new ChildItem("week4", R.drawable.ic_action_name));
+
+        parentList.add(new ParentItem("2022.10", R.drawable.calendar, childItems7));
+
+
+        ArrayList<ChildItem> childItems8 = new ArrayList<>();
+        childItems8.add(new ChildItem("week1", R.drawable.ic_action_name));
+        childItems8.add(new ChildItem("week2", R.drawable.ic_action_name));
+        childItems8.add(new ChildItem("week3", R.drawable.ic_action_name));
+        childItems8.add(new ChildItem("week4", R.drawable.ic_action_name));
+
+        parentList.add(new ParentItem("2022.09", R.drawable.calendar, childItems8));
 
 
 
