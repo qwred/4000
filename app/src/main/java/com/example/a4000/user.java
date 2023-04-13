@@ -2,6 +2,8 @@ package com.example.a4000;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Build;
@@ -22,6 +24,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
+import java.util.List;
 
 public class user extends AppCompatActivity
 {
@@ -34,6 +38,9 @@ public class user extends AppCompatActivity
     DatabaseReference databaseReference;
 
     ValueEventListener eventListener;
+
+    private RecyclerView parentRecyclerView;
+    private ArrayList<ParentItem> parentList;
 
     private String userName;
 
@@ -49,6 +56,22 @@ public class user extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
+
+
+
+        parentRecyclerView = findViewById(R.id.parentRecyclerView);
+        parentRecyclerView.setHasFixedSize(true);
+        parentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        parentList = new ArrayList<>();
+
+        prepareData();
+        ParentRecyclerViewAdapter adapter = new ParentRecyclerViewAdapter(parentList);
+        parentRecyclerView.setAdapter(adapter);
+
+
+
+
+
 
 //        String dob;
 
@@ -69,49 +92,144 @@ public class user extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
 
-        textView = findViewById(R.id.user_details);
+//        textView = findViewById(R.id.user_details);
 
-        if (user == null) {
+        if (user == null)
+        {
             Intent intent = new Intent(getApplicationContext(), login.class);
             startActivity(intent);
             finish();
-        } else {
-            textView.setText(user.getEmail());
+        }
+        else
+        {
+//            textView.setText(user.getEmail());
+
+            userName = user.getDisplayName();
+
+            eventListener = databaseReference.addValueEventListener(new ValueEventListener()
+            {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot)
+                {
+                    dob = snapshot.child(userName).child("dob").getValue(String.class);
+                    String parts_of_dob[] = dob.split("/");
+
+                    month = Integer.parseInt(parts_of_dob[0]);
+                    day = Integer.parseInt(parts_of_dob[1]);
+                    year = Integer.parseInt(parts_of_dob[2]);
+
+                    LocalDate birthday = LocalDate.of(year,month,day);
+                    LocalDate today = LocalDate.now();
+
+                    Period age = Period.between(birthday, today);
+
+//                textView = findViewById(R.id.user_age);
+//                textView.setText("Your age is " + age.getYears() + " years "  + age.getMonths()  + " months and " + age.getDays() + " days");
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(user.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
-        userName = user.getDisplayName();
+//        userName = user.getDisplayName();
+//
+//        eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot)
+//            {
+//                dob = snapshot.child(userName).child("dob").getValue(String.class);
+//                String parts_of_dob[] = dob.split("/");
+//
+//                month = Integer.parseInt(parts_of_dob[0]);
+//                day = Integer.parseInt(parts_of_dob[1]);
+//                year = Integer.parseInt(parts_of_dob[2]);
+//
+//                LocalDate birthday = LocalDate.of(year,month,day);
+//                LocalDate today = LocalDate.now();
+//
+//                Period age = Period.between(birthday, today);
+//
+////                textView = findViewById(R.id.user_age);
+////                textView.setText("Your age is " + age.getYears() + " years "  + age.getMonths()  + " months and " + age.getDays() + " days");
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Toast.makeText(user.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
-        eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot)
-            {
-                dob = snapshot.child(userName).child("dob").getValue(String.class);
-                String parts_of_dob[] = dob.split("/");
-
-                month = Integer.parseInt(parts_of_dob[0]);
-                day = Integer.parseInt(parts_of_dob[1]);
-                year = Integer.parseInt(parts_of_dob[2]);
-
-                LocalDate birthday = LocalDate.of(year,month,day);
-                LocalDate today = LocalDate.now();
-
-                Period age = Period.between(birthday, today);
-
-                textView = findViewById(R.id.user_age);
-                textView.setText("Your age is " + age.getYears() + " years "  + age.getMonths()  + " months and " + age.getDays() + " days");
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(user.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        textView = findViewById(R.id.user_name);
-        textView.setText(userName);
+//        textView = findViewById(R.id.user_name);
+//        textView.setText(userName);
 
 //        bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+
+    }
+    private void prepareData()
+    {
+        ArrayList<ChildItem> childItems1 = new ArrayList<>();
+        childItems1.add(new ChildItem("week1", R.drawable.ic_action_name));
+        childItems1.add(new ChildItem("week2", R.drawable.ic_action_name));
+        childItems1.add(new ChildItem("week3", R.drawable.ic_action_name));
+        childItems1.add(new ChildItem("week4", R.drawable.ic_action_name));
+
+        parentList.add(new ParentItem("2023.04", R.drawable.calendar, childItems1));
+
+
+        ArrayList<ChildItem> childItems2 = new ArrayList<>();
+        childItems2.add(new ChildItem("week1", R.drawable.ic_action_name));
+        childItems2.add(new ChildItem("week2", R.drawable.ic_action_name));
+        childItems2.add(new ChildItem("week3", R.drawable.ic_action_name));
+        childItems2.add(new ChildItem("week4", R.drawable.ic_action_name));
+
+        parentList.add(new ParentItem("2023.03", R.drawable.calendar, childItems2));
+
+
+
+        ArrayList<ChildItem> childItems3 = new ArrayList<>();
+        childItems3.add(new ChildItem("week1", R.drawable.ic_action_name));
+        childItems3.add(new ChildItem("week2", R.drawable.ic_action_name));
+        childItems3.add(new ChildItem("week3", R.drawable.ic_action_name));
+        childItems3.add(new ChildItem("week4", R.drawable.ic_action_name));
+
+        parentList.add(new ParentItem("2023.02", R.drawable.calendar, childItems3));
+
+
+
+
+        ArrayList<ChildItem> childItems4 = new ArrayList<>();
+        childItems4.add(new ChildItem("week1", R.drawable.ic_action_name));
+        childItems4.add(new ChildItem("week2", R.drawable.ic_action_name));
+        childItems4.add(new ChildItem("week3", R.drawable.ic_action_name));
+        childItems4.add(new ChildItem("week4", R.drawable.ic_action_name));
+
+        parentList.add(new ParentItem("2023.01", R.drawable.calendar, childItems4));
+
+
+        ArrayList<ChildItem> childItems5 = new ArrayList<>();
+        childItems5.add(new ChildItem("week1", R.drawable.ic_action_name));
+        childItems5.add(new ChildItem("week2", R.drawable.ic_action_name));
+        childItems5.add(new ChildItem("week3", R.drawable.ic_action_name));
+        childItems5.add(new ChildItem("week4", R.drawable.ic_action_name));
+
+        parentList.add(new ParentItem("2022.12", R.drawable.calendar, childItems5));
+
+        ArrayList<ChildItem> childItems6 = new ArrayList<>();
+        childItems6.add(new ChildItem("week1", R.drawable.ic_action_name));
+        childItems6.add(new ChildItem("week2", R.drawable.ic_action_name));
+        childItems6.add(new ChildItem("week3", R.drawable.ic_action_name));
+        childItems6.add(new ChildItem("week4", R.drawable.ic_action_name));
+
+        parentList.add(new ParentItem("2022.11", R.drawable.calendar, childItems6));
+
+
+
 
 
     }
