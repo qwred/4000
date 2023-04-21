@@ -47,6 +47,12 @@ public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<ParentRecycl
     @Override
     public void onBindViewHolder(@NonNull ParentRecyclerViewHolder holder, int position)
     {
+
+//        ChildRecyclerViewAdapter childAdapter = new ChildRecyclerViewAdapter(parentItemList.getChi);
+
+
+
+
         ParentItem parentItem = parentItemList.get(position);
 
         holder.parentTitle.setText(parentItem.getTitle());
@@ -55,7 +61,7 @@ public class ParentRecyclerViewAdapter extends RecyclerView.Adapter<ParentRecycl
         holder.childRecyclerView.setHasFixedSize(true);
         holder.childRecyclerView.setLayoutManager(new GridLayoutManager(holder.itemView.getContext(), 3));
 
-        ChildRecyclerViewAdapter adapter = new ChildRecyclerViewAdapter(parentItem.getChildItemList());
+        ChildRecyclerViewAdapter adapter = new ChildRecyclerViewAdapter(parentItem.getChildItemList(),parentItem.getTitle());
         holder.childRecyclerView.setAdapter(adapter);
 
         //expandable functionality
