@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -49,6 +50,10 @@ public class user extends AppCompatActivity
 
     private int day,month,year;
 
+    private Period age;
+
+    private LocalDate birthday, today;
+
     BottomNavigationView bottomNavigationView;
 
     @Override
@@ -56,22 +61,6 @@ public class user extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-
-
-
-        parentRecyclerView = findViewById(R.id.parentRecyclerView);
-        parentRecyclerView.setHasFixedSize(true);
-        parentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        parentList = new ArrayList<>();
-
-        prepareData();
-        ParentRecyclerViewAdapter adapter = new ParentRecyclerViewAdapter(parentList);
-        parentRecyclerView.setAdapter(adapter);
-
-
-
-
-
 
 //        String dob;
 
@@ -118,13 +107,31 @@ public class user extends AppCompatActivity
                     day = Integer.parseInt(parts_of_dob[1]);
                     year = Integer.parseInt(parts_of_dob[2]);
 
-                    LocalDate birthday = LocalDate.of(year,month,day);
-                    LocalDate today = LocalDate.now();
+                    Log.d("age1", "year " + year);
+                    Log.d("age1", "month " + month);
+                    Log.d("age1", "day " + day);
 
-                    Period age = Period.between(birthday, today);
 
-//                textView = findViewById(R.id.user_age);
-//                textView.setText("Your age is " + age.getYears() + " years "  + age.getMonths()  + " months and " + age.getDays() + " days");
+
+                    birthday = LocalDate.of(year,month,day);
+                    today = LocalDate.now();
+
+                    Log.d("age1", "birthday" + birthday);
+                    Log.d("age1", "today" + today);
+
+                    age = Period.between(birthday, today);
+
+                    Log.d("age1", "age" + age);
+
+
+                    parentRecyclerView = findViewById(R.id.parentRecyclerView);
+                    parentRecyclerView.setHasFixedSize(true);
+                    parentRecyclerView.setLayoutManager(new LinearLayoutManager(user.this));
+                    parentList = new ArrayList<>();
+                    prepareData();
+                    ParentRecyclerViewAdapter adapter = new ParentRecyclerViewAdapter(parentList);
+                    parentRecyclerView.setAdapter(adapter);
+
 
                 }
 
@@ -134,6 +141,15 @@ public class user extends AppCompatActivity
                 }
             });
         }
+
+//        parentRecyclerView = findViewById(R.id.parentRecyclerView);
+//        parentRecyclerView.setHasFixedSize(true);
+//        parentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        parentList = new ArrayList<>();
+//
+//        prepareData();
+//        ParentRecyclerViewAdapter adapter = new ParentRecyclerViewAdapter(parentList);
+//        parentRecyclerView.setAdapter(adapter);
 
 //        userName = user.getDisplayName();
 //
@@ -173,78 +189,110 @@ public class user extends AppCompatActivity
     }
     private void prepareData()
     {
-        ArrayList<ChildItem> childItems1 = new ArrayList<>();
-        childItems1.add(new ChildItem("week1", R.drawable.ic_action_name));
-        childItems1.add(new ChildItem("week2", R.drawable.ic_action_name));
-        childItems1.add(new ChildItem("week3", R.drawable.ic_action_name));
-        childItems1.add(new ChildItem("week4", R.drawable.ic_action_name));
-
-        parentList.add(new ParentItem("2023.04", R.drawable.calendar, childItems1));
-
-
-        ArrayList<ChildItem> childItems2 = new ArrayList<>();
-        childItems2.add(new ChildItem("week1", R.drawable.ic_action_name));
-        childItems2.add(new ChildItem("week2", R.drawable.ic_action_name));
-        childItems2.add(new ChildItem("week3", R.drawable.ic_action_name));
-        childItems2.add(new ChildItem("week4", R.drawable.ic_action_name));
-
-        parentList.add(new ParentItem("2023.03", R.drawable.calendar, childItems2));
-
-
-
-        ArrayList<ChildItem> childItems3 = new ArrayList<>();
-        childItems3.add(new ChildItem("week1", R.drawable.ic_action_name));
-        childItems3.add(new ChildItem("week2", R.drawable.ic_action_name));
-        childItems3.add(new ChildItem("week3", R.drawable.ic_action_name));
-        childItems3.add(new ChildItem("week4", R.drawable.ic_action_name));
-
-        parentList.add(new ParentItem("2023.02", R.drawable.calendar, childItems3));
-
-
+//        ArrayList<ChildItem> childItems1 = new ArrayList<>();
+//        childItems1.add(new ChildItem("week1", R.drawable.ic_action_name));
+//        childItems1.add(new ChildItem("week2", R.drawable.ic_action_name));
+//        childItems1.add(new ChildItem("week3", R.drawable.ic_action_name));
+//        childItems1.add(new ChildItem("week4", R.drawable.ic_action_name));
+//
+//        parentList.add(new ParentItem("2023.04", R.drawable.calendar, childItems1));
+//
+//
+//        ArrayList<ChildItem> childItems2 = new ArrayList<>();
+//        childItems2.add(new ChildItem("week1", R.drawable.ic_action_name));
+//        childItems2.add(new ChildItem("week2", R.drawable.ic_action_name));
+//        childItems2.add(new ChildItem("week3", R.drawable.ic_action_name));
+//        childItems2.add(new ChildItem("week4", R.drawable.ic_action_name));
+//
+//        parentList.add(new ParentItem("2023.03", R.drawable.calendar, childItems2));
+//
+//
+//
+//        ArrayList<ChildItem> childItems3 = new ArrayList<>();
+//        childItems3.add(new ChildItem("week1", R.drawable.ic_action_name));
+//        childItems3.add(new ChildItem("week2", R.drawable.ic_action_name));
+//        childItems3.add(new ChildItem("week3", R.drawable.ic_action_name));
+//        childItems3.add(new ChildItem("week4", R.drawable.ic_action_name));
+//
+//        parentList.add(new ParentItem("2023.02", R.drawable.calendar, childItems3));
 
 
-        ArrayList<ChildItem> childItems4 = new ArrayList<>();
-        childItems4.add(new ChildItem("week1", R.drawable.ic_action_name));
-        childItems4.add(new ChildItem("week2", R.drawable.ic_action_name));
-        childItems4.add(new ChildItem("week3", R.drawable.ic_action_name));
-        childItems4.add(new ChildItem("week4", R.drawable.ic_action_name));
-
-        parentList.add(new ParentItem("2023.01", R.drawable.calendar, childItems4));
 
 
-        ArrayList<ChildItem> childItems5 = new ArrayList<>();
-        childItems5.add(new ChildItem("week1", R.drawable.ic_action_name));
-        childItems5.add(new ChildItem("week2", R.drawable.ic_action_name));
-        childItems5.add(new ChildItem("week3", R.drawable.ic_action_name));
-        childItems5.add(new ChildItem("week4", R.drawable.ic_action_name));
+//        ArrayList<ChildItem> childItems4 = new ArrayList<>();
+//        childItems4.add(new ChildItem(Integer.toString(age.getYears()), R.drawable.ic_action_name));
+//        childItems4.add(new ChildItem(Integer.toString(age.getMonths()), R.drawable.ic_action_name));
+//        childItems4.add(new ChildItem(Integer.toString(age.getDays()), R.drawable.ic_action_name));
+//        childItems4.add(new ChildItem("week1", R.drawable.ic_action_name));
+//        childItems4.add(new ChildItem("week2", R.drawable.ic_action_name));
+//        childItems4.add(new ChildItem("week3", R.drawable.ic_action_name));
+//        childItems4.add(new ChildItem("week4", R.drawable.ic_action_name));
+//
+//        parentList.add(new ParentItem("2023.01", R.drawable.calendar, childItems4));
+//
+//
+//        ArrayList<ChildItem> childItems5 = new ArrayList<>();
+//        childItems5.add(new ChildItem("week1", R.drawable.ic_action_name));
+//        childItems5.add(new ChildItem("week2", R.drawable.ic_action_name));
+//        childItems5.add(new ChildItem("week3", R.drawable.ic_action_name));
+//        childItems5.add(new ChildItem("week4", R.drawable.ic_action_name));
+//
+//        parentList.add(new ParentItem("2022.12", R.drawable.calendar, childItems5));
+//
+//        ArrayList<ChildItem> childItems6 = new ArrayList<>();
+//        childItems6.add(new ChildItem("week1", R.drawable.ic_action_name));
+//        childItems6.add(new ChildItem("week2", R.drawable.ic_action_name));
+//        childItems6.add(new ChildItem("week3", R.drawable.ic_action_name));
+//        childItems6.add(new ChildItem("week4", R.drawable.ic_action_name));
+//
+//        parentList.add(new ParentItem("2022.11", R.drawable.calendar, childItems6));
+//
+//
+//        ArrayList<ChildItem> childItems7 = new ArrayList<>();
+//        childItems7.add(new ChildItem("week1", R.drawable.ic_action_name));
+//        childItems7.add(new ChildItem("week2", R.drawable.ic_action_name));
+//        childItems7.add(new ChildItem("week3", R.drawable.ic_action_name));
+//        childItems7.add(new ChildItem("week4", R.drawable.ic_action_name));
+//
+//        parentList.add(new ParentItem("2022.10", R.drawable.calendar, childItems7));
+//
+//
+//        ArrayList<ChildItem> childItems8 = new ArrayList<>();
+//        childItems8.add(new ChildItem("week1", R.drawable.ic_action_name));
+//        childItems8.add(new ChildItem("week2", R.drawable.ic_action_name));
+//        childItems8.add(new ChildItem("week3", R.drawable.ic_action_name));
+//        childItems8.add(new ChildItem("week4", R.drawable.ic_action_name));
+//
+//        parentList.add(new ParentItem("2022.09", R.drawable.calendar, childItems8));
 
-        parentList.add(new ParentItem("2022.12", R.drawable.calendar, childItems5));
+        int user_months = (int) age.toTotalMonths();
+        int user_year = year;
+        int month_count = month;
+        Log.d("gettingMonth", "Months" + age.getMonths());
+        ArrayList<ChildItem>[] months = new ArrayList[user_months];
 
-        ArrayList<ChildItem> childItems6 = new ArrayList<>();
-        childItems6.add(new ChildItem("week1", R.drawable.ic_action_name));
-        childItems6.add(new ChildItem("week2", R.drawable.ic_action_name));
-        childItems6.add(new ChildItem("week3", R.drawable.ic_action_name));
-        childItems6.add(new ChildItem("week4", R.drawable.ic_action_name));
+        Log.d("real", "months" + user_months);
+        Log.d("real", "year" + user_year);
 
-        parentList.add(new ParentItem("2022.11", R.drawable.calendar, childItems6));
+        for(int i=0; i<user_months; i++)
+        {
+            months[i] = new ArrayList<>();
 
+            months[i].add(new ChildItem("week1",R.drawable.ic_action_name));
+            months[i].add(new ChildItem("week2",R.drawable.ic_action_name));
+            months[i].add(new ChildItem("week3",R.drawable.ic_action_name));
+            months[i].add(new ChildItem("week4",R.drawable.ic_action_name));
 
-        ArrayList<ChildItem> childItems7 = new ArrayList<>();
-        childItems7.add(new ChildItem("week1", R.drawable.ic_action_name));
-        childItems7.add(new ChildItem("week2", R.drawable.ic_action_name));
-        childItems7.add(new ChildItem("week3", R.drawable.ic_action_name));
-        childItems7.add(new ChildItem("week4", R.drawable.ic_action_name));
+            parentList.add(new ParentItem((Integer.toString(user_year) + "." + Integer.toString(month_count)), R.drawable.calendar ,months[i]));
+            if(month_count == 12)
+            {
+                user_year++;
+                month_count = 1;
+            }
 
-        parentList.add(new ParentItem("2022.10", R.drawable.calendar, childItems7));
-
-
-        ArrayList<ChildItem> childItems8 = new ArrayList<>();
-        childItems8.add(new ChildItem("week1", R.drawable.ic_action_name));
-        childItems8.add(new ChildItem("week2", R.drawable.ic_action_name));
-        childItems8.add(new ChildItem("week3", R.drawable.ic_action_name));
-        childItems8.add(new ChildItem("week4", R.drawable.ic_action_name));
-
-        parentList.add(new ParentItem("2022.09", R.drawable.calendar, childItems8));
+            else
+                month_count++;
+        }
 
 
 

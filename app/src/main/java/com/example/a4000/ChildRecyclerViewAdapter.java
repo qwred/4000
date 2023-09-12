@@ -3,6 +3,7 @@ package com.example.a4000;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,7 +87,9 @@ public class ChildRecyclerViewAdapter extends RecyclerView.Adapter<ChildRecycler
         String ym = parentTitle;
         String[] date = ym.split("\\.");
         String year = date[0];
+        Log.d("child", "year" + year);
         String month = date[1];
+        Log.d("child", "month" + month);
         String week = childList.get(position).getTitle();
 
         FirebaseStorage storage = FirebaseStorage.getInstance();

@@ -126,8 +126,6 @@ public class ImageAdd extends AppCompatActivity
                 String comment = editComment.getText().toString();
                 commentRoot.setValue(comment);
 
-
-
             }
         });
 
