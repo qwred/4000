@@ -288,7 +288,6 @@ public class user extends AppCompatActivity
             {
                 user_year++;
                 month_count = 1;
-
             }
 
             else
