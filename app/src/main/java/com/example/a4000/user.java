@@ -61,9 +61,6 @@ public class user extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-
-//        String dob;
-
         button = findViewById(R.id.logout);
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +98,7 @@ public class user extends AppCompatActivity
                 public void onDataChange(@NonNull DataSnapshot snapshot)
                 {
                     dob = snapshot.child(userName).child("dob").getValue(String.class);
+                    Log.d("dob", "dob" + dob);
                     String parts_of_dob[] = dob.split("/");
 
                     month = Integer.parseInt(parts_of_dob[0]);

@@ -96,24 +96,6 @@ public class register extends AppCompatActivity
         int month = birthday.getMonth()+1;
         int year = birthday.getYear();
 
-//        Calendar calendar = Calendar.getInstance();
-
-
-//        birthday.init(year,month,day, new DatePicker.OnDateChangedListener()
-//        {
-//
-//            @Override
-//            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth)
-//            {
-//                int selectedYear = view.getYear();
-//                int selectedMonth = view.getMonth() +1;
-//                int selectedDay = view.getDayOfMonth();
-//
-//                calendar.set(selectedYear,selectedMonth,selectedDay);
-//
-//            }
-//        });
-
         birthday.init(year, month, day, new DatePicker.OnDateChangedListener()
                 {
                     @Override
@@ -126,9 +108,6 @@ public class register extends AppCompatActivity
                     }
                 }
         );
-
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-//        dob = dateFormat.format(calendar.getTime());
 
         backButton = findViewById(R.id.register_loginButton);
         backButton.setOnClickListener(new View.OnClickListener()
@@ -192,9 +171,9 @@ public class register extends AppCompatActivity
 
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(register.this, "Account created.", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(), user.class);
-                            startActivity(intent);
-                            finish();
+//                            Intent intent = new Intent(getApplicationContext(), user.class);
+//                            startActivity(intent);
+//                            finish();
                         }
                         else
                         {
@@ -211,35 +190,6 @@ public class register extends AppCompatActivity
 
     }
 
-//    private void addDataFirebase(String birthday, String name)
-//    {
-//        userInfo.setDob(birthday);
-//        databaseReference.addValueEventListener(new ValueEventListener()
-//        {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot)
-//            {
-//                // inside the method of on Data change we are setting
-//                // our object class to our database reference.
-//                // data base reference will sends data to firebase.
-//                databaseReference.setValue(userInfo);
-//
-//                // after adding this data we are showing toast message.
-//                Toast.makeText(register.this, "data added", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error)
-//            {
-//                Toast.makeText(register.this, "Fail to add data " + error, Toast.LENGTH_SHORT).show();
-//            }
-//
-//
-//
-//        });
-//
-//        //https://www.geeksforgeeks.org/how-to-save-data-to-the-firebase-realtime-database-in-android/
-//
 
 //    }
     private void addDataFirebase(FirebaseUser currentuser)
@@ -252,8 +202,8 @@ public class register extends AppCompatActivity
 //      To fix the problem I changed, the name of the node as the user's Full name.
         databaseReference.push();
         databaseReference.child(userInfo.getUserName()).setValue(userInfo);
-        Intent loginIntent = new Intent(this,login.class);
-        startActivity(loginIntent);
+//        Intent loginIntent = new Intent(this,login.class);
+//        startActivity(loginIntent);
     }
 
 //    https://www.youtube.com/watch?v=0gNPX52o_7I
