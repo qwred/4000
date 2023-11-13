@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -41,6 +42,10 @@ public class user extends AppCompatActivity
     ValueEventListener eventListener;
 
     private RecyclerView parentRecyclerView;
+    private RecyclerView grandParentRecyclerView;
+
+    private ArrayList<GrandParentItem> grandParentItemList;
+
     private ArrayList<ParentItem> parentList;
 
     private String userName;
@@ -126,12 +131,26 @@ public class user extends AppCompatActivity
                     parentRecyclerView.setHasFixedSize(true);
                     parentRecyclerView.setLayoutManager(new LinearLayoutManager(user.this));
                     parentList = new ArrayList<>();
+//                    prepareData();
+//                    ParentRecyclerViewAdapter adapter = new ParentRecyclerViewAdapter(parentList);
+//                    parentRecyclerView.setAdapter(adapter);
+
+                    grandParentRecyclerView = findViewById(R.id.grandParentRecyclerView);
+                    grandParentRecyclerView.setHasFixedSize(true);
+                    grandParentRecyclerView.setLayoutManager(new LinearLayoutManager(user.this));
+                    grandParentItemList = new ArrayList<>();
                     prepareData();
-                    ParentRecyclerViewAdapter adapter = new ParentRecyclerViewAdapter(parentList);
-                    parentRecyclerView.setAdapter(adapter);
+                    GrandParentRecyclerViewAdapter adapter = new GrandParentRecyclerViewAdapter(grandParentItemList);
+                    grandParentRecyclerView.setAdapter(adapter);
+
 
 
                 }
+
+
+
+
+
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
@@ -140,134 +159,19 @@ public class user extends AppCompatActivity
             });
         }
 
-//        parentRecyclerView = findViewById(R.id.parentRecyclerView);
-//        parentRecyclerView.setHasFixedSize(true);
-//        parentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        parentList = new ArrayList<>();
-//
-//        prepareData();
-//        ParentRecyclerViewAdapter adapter = new ParentRecyclerViewAdapter(parentList);
-//        parentRecyclerView.setAdapter(adapter);
-
-//        userName = user.getDisplayName();
-//
-//        eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot)
-//            {
-//                dob = snapshot.child(userName).child("dob").getValue(String.class);
-//                String parts_of_dob[] = dob.split("/");
-//
-//                month = Integer.parseInt(parts_of_dob[0]);
-//                day = Integer.parseInt(parts_of_dob[1]);
-//                year = Integer.parseInt(parts_of_dob[2]);
-//
-//                LocalDate birthday = LocalDate.of(year,month,day);
-//                LocalDate today = LocalDate.now();
-//
-//                Period age = Period.between(birthday, today);
-//
-////                textView = findViewById(R.id.user_age);
-////                textView.setText("Your age is " + age.getYears() + " years "  + age.getMonths()  + " months and " + age.getDays() + " days");
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Toast.makeText(user.this, "Fail to get data.", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
-//        textView = findViewById(R.id.user_name);
-//        textView.setText(userName);
-
-//        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
 
     }
     private void prepareData()
     {
-//        ArrayList<ChildItem> childItems1 = new ArrayList<>();
-//        childItems1.add(new ChildItem("week1", R.drawable.ic_action_name));
-//        childItems1.add(new ChildItem("week2", R.drawable.ic_action_name));
-//        childItems1.add(new ChildItem("week3", R.drawable.ic_action_name));
-//        childItems1.add(new ChildItem("week4", R.drawable.ic_action_name));
-//
-//        parentList.add(new ParentItem("2023.04", R.drawable.calendar, childItems1));
-//
-//
-//        ArrayList<ChildItem> childItems2 = new ArrayList<>();
-//        childItems2.add(new ChildItem("week1", R.drawable.ic_action_name));
-//        childItems2.add(new ChildItem("week2", R.drawable.ic_action_name));
-//        childItems2.add(new ChildItem("week3", R.drawable.ic_action_name));
-//        childItems2.add(new ChildItem("week4", R.drawable.ic_action_name));
-//
-//        parentList.add(new ParentItem("2023.03", R.drawable.calendar, childItems2));
-//
-//
-//
-//        ArrayList<ChildItem> childItems3 = new ArrayList<>();
-//        childItems3.add(new ChildItem("week1", R.drawable.ic_action_name));
-//        childItems3.add(new ChildItem("week2", R.drawable.ic_action_name));
-//        childItems3.add(new ChildItem("week3", R.drawable.ic_action_name));
-//        childItems3.add(new ChildItem("week4", R.drawable.ic_action_name));
-//
-//        parentList.add(new ParentItem("2023.02", R.drawable.calendar, childItems3));
-
-
-
-
-//        ArrayList<ChildItem> childItems4 = new ArrayList<>();
-//        childItems4.add(new ChildItem(Integer.toString(age.getYears()), R.drawable.ic_action_name));
-//        childItems4.add(new ChildItem(Integer.toString(age.getMonths()), R.drawable.ic_action_name));
-//        childItems4.add(new ChildItem(Integer.toString(age.getDays()), R.drawable.ic_action_name));
-//        childItems4.add(new ChildItem("week1", R.drawable.ic_action_name));
-//        childItems4.add(new ChildItem("week2", R.drawable.ic_action_name));
-//        childItems4.add(new ChildItem("week3", R.drawable.ic_action_name));
-//        childItems4.add(new ChildItem("week4", R.drawable.ic_action_name));
-//
-//        parentList.add(new ParentItem("2023.01", R.drawable.calendar, childItems4));
-//
-//
-//        ArrayList<ChildItem> childItems5 = new ArrayList<>();
-//        childItems5.add(new ChildItem("week1", R.drawable.ic_action_name));
-//        childItems5.add(new ChildItem("week2", R.drawable.ic_action_name));
-//        childItems5.add(new ChildItem("week3", R.drawable.ic_action_name));
-//        childItems5.add(new ChildItem("week4", R.drawable.ic_action_name));
-//
-//        parentList.add(new ParentItem("2022.12", R.drawable.calendar, childItems5));
-//
-//        ArrayList<ChildItem> childItems6 = new ArrayList<>();
-//        childItems6.add(new ChildItem("week1", R.drawable.ic_action_name));
-//        childItems6.add(new ChildItem("week2", R.drawable.ic_action_name));
-//        childItems6.add(new ChildItem("week3", R.drawable.ic_action_name));
-//        childItems6.add(new ChildItem("week4", R.drawable.ic_action_name));
-//
-//        parentList.add(new ParentItem("2022.11", R.drawable.calendar, childItems6));
-//
-//
-//        ArrayList<ChildItem> childItems7 = new ArrayList<>();
-//        childItems7.add(new ChildItem("week1", R.drawable.ic_action_name));
-//        childItems7.add(new ChildItem("week2", R.drawable.ic_action_name));
-//        childItems7.add(new ChildItem("week3", R.drawable.ic_action_name));
-//        childItems7.add(new ChildItem("week4", R.drawable.ic_action_name));
-//
-//        parentList.add(new ParentItem("2022.10", R.drawable.calendar, childItems7));
-//
-//
-//        ArrayList<ChildItem> childItems8 = new ArrayList<>();
-//        childItems8.add(new ChildItem("week1", R.drawable.ic_action_name));
-//        childItems8.add(new ChildItem("week2", R.drawable.ic_action_name));
-//        childItems8.add(new ChildItem("week3", R.drawable.ic_action_name));
-//        childItems8.add(new ChildItem("week4", R.drawable.ic_action_name));
-//
-//        parentList.add(new ParentItem("2022.09", R.drawable.calendar, childItems8));
-
+        
         int user_months = (int) age.toTotalMonths();
         int user_year = year;
+        int user_countedYear = 0;
         int month_count = month;
         Log.d("gettingMonth", "Months" + age.getMonths());
         ArrayList<ChildItem>[] months = new ArrayList[user_months];
+        ArrayList<ParentItem>[] years = new ArrayList[user_months/12];
 
         Log.d("real", "months" + user_months);
         Log.d("real", "year" + user_year);
@@ -286,10 +190,12 @@ public class user extends AppCompatActivity
             {
                 user_year++;
                 month_count = 1;
+                grandParentItemList.add(new GrandParentItem(Integer.toString(user_year), parentList, R.drawable.ic_action_name));
             }
 
             else
                 month_count++;
+
         }
 
 
